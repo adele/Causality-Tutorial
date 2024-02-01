@@ -7,7 +7,7 @@ output: html_document
 
 ## Setup
 
-### Installing required R packages
+#### Installing required R packages
 
 ```{r, include = TRUE, eval = FALSE}
 install.packages("BiocManager")
@@ -17,7 +17,7 @@ install.packages("devtools")
 devtools::install_github("adele/PAGId", dependencies=TRUE)
 ```
 
-### Loading libraries
+#### Loading libraries
 
 ```{r setup, include = TRUE, results='hide', warning=FALSE}
 source("utils/utils.R")
@@ -29,9 +29,11 @@ library(igraph, warn.conflicts=F, quietly=T)
 library(PAGId, warn.conflicts=F, quietly=T)
 ```
 
-## Model Definition and Data Generation
+## Part I: Causal Modeling and Effect Identification from Causal Diagrams
 
-### Structural Causal Model
+### Model Definition
+
+#### Structural Causal Model
 
 The SCM will be only used later for generating a dataset.
 
@@ -39,7 +41,7 @@ The SCM will be only used later for generating a dataset.
 trueSCM <- getIVSEM()
 ```
 
-### Causal Diagram
+#### Causal Diagram
 
 Plotting the graph corresponding to the SCM.
 
@@ -51,57 +53,9 @@ plot(trueDAG) # showing the U variables
 plot(trueDiagram) # bidirected edges represent hidden confounders
 ```
 
-### Maximal Ancestral Graph (MAG)
+### Effect Identification from the Causal Diagram
 
-Computing the MAG corresponding to the true causal diagram.
-
-```{r, echo = TRUE, warning=FALSE}
-trueMAG <- dagitty::toMAG(trueDAG)
-plot(trueMAG)
-```
-
-# Implied Minimal Conditional Independencies
-
-The conditional independencies (among observed variables) implied by a MAG through m-separations are the same as the conditional independencies (among the observed variables) implied from a causal diagram through d-separations.
-
-Notably, MAGs preserve conditional independencies without explicitly encoding latent confounders.
-
-```{r, echo = TRUE, warning=FALSE}
-trueImpliedCI <- dagitty::impliedConditionalIndependencies(trueMAG, type = "missing.edge")
-trueImpliedCI
-```
-
-
-# Partial Ancestral Graph (PAG)
-
-The true PAG can be obtained by running the FCI with an oracle (i.e., conditional
-independencies are directly inferred from the true DAG using d-separation).  
-
-```{r, echo = TRUE, warning=FALSE}
-truePAG <- getTruePAG(trueDAG, verbose = TRUE)
-```
-
-```{r, include = FALSE, warning=FALSE}
-renderAG(truePAG@amat, fileid = "truePAG", add_index = FALSE)
-```
-
-![True PAG:](tmp/truePAG.png){#id .class width=40% height=50%}
-
-### Simulating data from the true SCM
-
-We are generating n=10000 samples.  
-
-```{r, echo = TRUE, warning=FALSE}
-n = 10000  # sample size
-dat <- generateDatasetFromSEM(trueSCM$beta, trueSCM$lat, n)
-dat <- dat[, c("A", "B", "C", "D")] # selecting only V={A, B, C, D}
-head(dat)
-```
-
-## Effect Identification from the Causal Diagram
-
-
-### Identification via Adjustment
+#### Identification via Adjustment
 
 Checking identifiability of P(y|do(x)) through generalized adjustment criterion (GAC). 
 
@@ -109,6 +63,9 @@ Checking identifiability of P(y|do(x)) through generalized adjustment criterion 
 
 x = 2 # index of variable "B"
 y = 3 # index of variable "C"
+
+trueMAG <- dagitty::toMAG(trueDAG) # graphical model without the latent confounders 
+                                   # we will see this later
 
 trueMAG.pcalg <- dagitty2amat(trueMAG, type="mag")
 labels <- colnames(trueMAG.pcalg)
@@ -136,7 +93,9 @@ print(paste0("Is set {", paste(zlabels, collapse=","), "} admissible for adjustm
 ```
 
 
-### Identification via ID Algorithm
+#### Identification via ID Algorithm from a Causal Diagram
+
+##### Marginal Causal Effect 
 
 ```{r, echo = TRUE, warning=FALSE}
 y = "B"
@@ -153,9 +112,7 @@ print(paste0("P(", y, "|do(", x, ")) = ", exprDAG))
 # use expr = FALSE and steps = TRUE.
 ````
 
-## Conditional Effect Identification from the Causal Diagram
-
-### Identification via ID Algorithm
+##### Conditional Causal Effect 
 
 ```{r, echo = TRUE, warning=FALSE}
 y = "C"
@@ -176,9 +133,63 @@ print(paste0("P(", y, "|do(", x, "), ", z, ") = ", exprDAG))
 2. What can we do if no knowledge is available to construct a causal diagram? 
 
 
-## Causal Discovery
 
-### FCI algorithm for learning the PAG from observational data
+## Part II: Causal Discovery and Effect Identification from the Markov Equivalence Class
+
+### Markov Equivalence Class:
+
+#### Maximal Ancestral Graph (MAG)
+
+Computing the MAG corresponding to the true causal diagram.
+
+```{r, echo = TRUE, warning=FALSE}
+trueMAG <- dagitty::toMAG(trueDAG)
+plot(trueMAG)
+```
+
+#### Implied Minimal Conditional Independencies
+
+The conditional independencies (among observed variables) implied by a MAG through m-separations are the same as the conditional independencies (among the observed variables) implied from a causal diagram through d-separations.
+
+Notably, MAGs preserve conditional independencies without explicitly encoding latent confounders.
+
+```{r, echo = TRUE, warning=FALSE}
+trueImpliedCI <- dagitty::impliedConditionalIndependencies(trueMAG, type = "missing.edge")
+trueImpliedCI
+```
+
+
+#### Partial Ancestral Graph (PAG)
+
+The true PAG can be obtained by running the FCI with an oracle (i.e., conditional
+independencies are directly inferred from the true DAG using d-separation).  
+
+```{r, echo = TRUE, warning=FALSE}
+truePAG <- getTruePAG(trueDAG, verbose = TRUE)
+```
+
+```{r, include = FALSE, warning=FALSE}
+renderAG(truePAG@amat, fileid = "truePAG", add_index = FALSE)
+```
+
+![True PAG:](tmp/truePAG.png){#id .class width=40% height=50%}
+
+
+### Causal Discovery
+
+#### Data Generation from the True SCM
+
+We are generating n=10000 samples.  
+
+```{r, echo = TRUE, warning=FALSE}
+n = 10000  # sample size
+dat <- generateDatasetFromSEM(trueSCM$beta, trueSCM$lat, n)
+dat <- dat[, c("A", "B", "C", "D")] # selecting only V={A, B, C, D}
+head(dat)
+```
+
+
+#### Inferring the PAG using FCI Algorithm 
 
 Since our variables follow a Gaussian distribution, the partial correlation test (Fisher's Z test)
 can be used to assess conditional independencies. 
@@ -209,9 +220,9 @@ renderAG(estPAG@amat, fileid = "estimatedPAG", add_index = FALSE)
 4. What can it happen with a smaller sample size?
 
 
-## Effect Identification from the Markov Equivalence Class
+### Effect Identification from the Markov Equivalence Class
 
-### Effect Identification via Backdoor / GAC 
+#### Effect Identification via Generalized Adjustment Criterion (GAC) 
 
 Checking identifiability of P(y|do(x)) through generalized adjustment criterion (GAC). 
 
@@ -245,7 +256,9 @@ is_admissible <- gac_out$gac
 print(paste0("Is set {", paste(zlabels, collapse=","), "} admissible for adjustment? ", is_admissible))
 ```
 
-### Effect Identification via IDP Algorithm 
+#### Effect Identification via CIDP Algorithm 
+
+##### Marginal Causal Effect 
 
 ```{r, include = TRUE, warning=FALSE}
 y = "C"
@@ -269,7 +282,7 @@ if (retPAG$id) {
 Note: IDP does not simiplifies the expression by leveraging conditional independences. By doing so, we would see the equivalence with the usual adjustment formula.
 
 
-### Conditional Effect Identification via CIDP Algorithm 
+##### Conditional Causal Effect
 
 ```{r, include = TRUE, warning=FALSE}
 y = "C"
@@ -291,5 +304,4 @@ if (retPAG$id) {
 ### Questions:
 
 1. Is the causal effect of D on C identifiable from the PAG? If so, how?
-2. How to estimate the adjustment expression?
 

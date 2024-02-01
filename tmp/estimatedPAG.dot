@@ -4,7 +4,6 @@ B [label= B ]
 C [label= C ]
 D [label= D ]
 A -> B [color=black, dir=both,arrowhead=normal, arrowtail=odot];
-B -> C [color=black, dir=both,arrowhead=normal, arrowtail=none];
+B -> C [color=black, dir=both,arrowhead=odot, arrowtail=normal];
 B -> D [color=black, dir=both,arrowhead=odot, arrowtail=normal];
-C -> D [color=black, dir=both,arrowhead=none, arrowtail=normal];
 }
