@@ -13,6 +13,7 @@ output: html_document
 install.packages("BiocManager")
 BiocManager::install(c("graph", "RBGL", "Rgraphviz"))
 install.packages(c("igraph", "pcalg", "dagitty", "causaleffect"), dependencies=TRUE)
+install.packages("devtools")
 devtools::install_github("adele/PAGId", dependencies=TRUE)
 ```
 
