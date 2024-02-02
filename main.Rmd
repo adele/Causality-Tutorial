@@ -57,7 +57,7 @@ plot(trueDiagram) # bidirected edges represent hidden confounders
 
 #### Identification via Adjustment
 
-Checking identifiability of P(y|do(x)) through generalized adjustment criterion (GAC). 
+Checking identifiability of P(y\|do(x)) through generalized adjustment criterion (GAC).
 
 ```{r, include = TRUE, warning=FALSE}
 
@@ -92,10 +92,9 @@ is_admissible <- gac_out$gac
 print(paste0("Is set {", paste(zlabels, collapse=","), "} admissible for adjustment? ", is_admissible))
 ```
 
-
 #### Identification via ID Algorithm from a Causal Diagram
 
-##### Marginal Causal Effect 
+##### Marginal Causal Effect
 
 ```{r, echo = TRUE, warning=FALSE}
 y = "B"
@@ -110,11 +109,9 @@ print(paste0("P(", y, "|do(", x, ")) = ", exprDAG))
 
 # Note: to see all steps applied by the ID algorithm,
 # use expr = FALSE and steps = TRUE.
-````
 
 ##### Conditional Causal Effect 
 
-```{r, echo = TRUE, warning=FALSE}
 y = "C"
 x = "B"
 z = c("D")
@@ -124,8 +121,7 @@ exprDAG <- causaleffect::causal.effect(y=y, x=x, z=z,
                                        simp = TRUE,
                                        steps = FALSE)
 print(paste0("P(", y, "|do(", x, "), ", z, ") = ", exprDAG))
-````
-
+```
 
 ### Questions:
 
@@ -158,11 +154,9 @@ trueImpliedCI <- dagitty::impliedConditionalIndependencies(trueMAG, type = "miss
 trueImpliedCI
 ```
 
-
 #### Partial Ancestral Graph (PAG)
 
-The true PAG can be obtained by running the FCI with an oracle (i.e., conditional
-independencies are directly inferred from the true DAG using d-separation).  
+The true PAG can be obtained by running the FCI with an oracle (i.e., conditional independencies are directly inferred from the true DAG using d-separation).
 
 ```{r, echo = TRUE, warning=FALSE}
 truePAG <- getTruePAG(trueDAG, verbose = TRUE)
@@ -172,14 +166,13 @@ truePAG <- getTruePAG(trueDAG, verbose = TRUE)
 renderAG(truePAG@amat, fileid = "truePAG", add_index = FALSE)
 ```
 
-![True PAG:](tmp/truePAG.png){#id .class width=40% height=50%}
-
+![True PAG:](tmp/truePAG.png){#id .class width="40%" height="50%"}
 
 ### Causal Discovery
 
 #### Data Generation from the True SCM
 
-We are generating n=10000 samples.  
+We are generating n=10000 samples.
 
 ```{r, echo = TRUE, warning=FALSE}
 n = 10000  # sample size
@@ -188,11 +181,9 @@ dat <- dat[, c("A", "B", "C", "D")] # selecting only V={A, B, C, D}
 head(dat)
 ```
 
+#### Inferring the PAG using FCI Algorithm
 
-#### Inferring the PAG using FCI Algorithm 
-
-Since our variables follow a Gaussian distribution, the partial correlation test (Fisher's Z test)
-can be used to assess conditional independencies. 
+Since our variables follow a Gaussian distribution, the partial correlation test (Fisher's Z test) can be used to assess conditional independencies.
 
 For other data types, appropriate conditional independence tests should be used.
 
@@ -210,22 +201,20 @@ estPAG <- pcalg::fci(suffStat,
 renderAG(estPAG@amat, fileid = "estimatedPAG", add_index = FALSE)
 ```
 
-![Estimated PAG:](tmp/estimatedPAG.png){#id .class width=40% height=50%}
+![Estimated PAG:](tmp/estimatedPAG.png){#id .class width="40%" height="50%"}
 
 ### Questions:
 
-1. Did we recover the correct PAG? 
-2. What the inferred PAG tell us about the relationship between every pair of nodes?
-3. Is the true causal diagram a member of the PAG's Markov Equivalence Class?
-4. What can it happen with a smaller sample size?
-
+1.  Did we recover the correct PAG?
+2.  What the inferred PAG tell us about the relationship between every pair of nodes?
+3.  Is the true causal diagram a member of the PAG's Markov Equivalence Class?
+4.  What can it happen with a smaller sample size?
 
 ### Effect Identification from the Markov Equivalence Class
 
-#### Effect Identification via Generalized Adjustment Criterion (GAC) 
+#### Effect Identification via Generalized Adjustment Criterion (GAC)
 
-Checking identifiability of P(y|do(x)) through generalized adjustment criterion (GAC). 
-
+Checking identifiability of P(y\|do(x)) through generalized adjustment criterion (GAC).
 
 ```{r, include = TRUE, warning=FALSE}
 
@@ -256,9 +245,9 @@ is_admissible <- gac_out$gac
 print(paste0("Is set {", paste(zlabels, collapse=","), "} admissible for adjustment? ", is_admissible))
 ```
 
-#### Effect Identification via CIDP Algorithm 
+#### Effect Identification via CIDP Algorithm
 
-##### Marginal Causal Effect 
+##### Marginal Causal Effect
 
 ```{r, include = TRUE, warning=FALSE}
 y = "C"
@@ -277,10 +266,7 @@ if (retPAG$id) {
 # print(retPAG$Qexpr)
 ```
 
-
-
 Note: IDP does not simiplifies the expression by leveraging conditional independences. By doing so, we would see the equivalence with the usual adjustment formula.
-
 
 ##### Conditional Causal Effect
 
@@ -303,5 +289,4 @@ if (retPAG$id) {
 
 ### Questions:
 
-1. Is the causal effect of D on C identifiable from the PAG? If so, how?
-
+1.  Is the causal effect of D on C identifiable from the PAG? If so, how?
