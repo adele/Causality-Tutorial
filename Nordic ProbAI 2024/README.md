@@ -1,4 +1,4 @@
-# Causality - Tutorial for Tropical Prob AI 2024
+# Causality - Tutorial for Nordic Prob AI 2024
 
 The tutorial at main.Rmd covers two topics:
 
