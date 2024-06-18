@@ -35,14 +35,15 @@ getIVSEM <- function(betaList=NULL) {
 }
 
 # The SEM is constructed as
-# Y = beta Y + eps, where
+# Y = B Y + eps, where B == beta
 # beta is a matrix of the coefficients for all variables (V and U)
+# Y = BY + eps --> Y - BY = eps --> (I - B)Y = eps --> Y = (I -B)^{-1} eps
 generateDatasetFromSEM <- function(beta, lat, N) {
   p <- ncol(beta)
   ident <- diag(1, p, p)
   colnames(ident) <- rownames(ident) <- colnames(beta)
   # Or, similarly,
-  # Y = (I - Beta)^{-1} eps
+  # Y = (I - Beta)^{-1} eps.
   # For Gaussian Y and errors eps independent from each other (we have all the Us),
   # we just need to simulate Y from a multivariate distribution
   # of mean zero and cov Sigma=I
