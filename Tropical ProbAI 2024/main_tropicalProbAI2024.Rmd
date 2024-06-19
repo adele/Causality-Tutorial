@@ -20,7 +20,7 @@ devtools::install_github("adele/PAGId", dependencies=TRUE)
 #### Loading libraries
 
 ```{r setup, include = TRUE, results='hide', warning=FALSE}
-source("utils/utils.R")
+source("../utils/utils.R")
 library(pcalg, warn.conflicts=F, quietly=T)
 library(dagitty, warn.conflicts=F, quietly=T)
 library(MASS, warn.conflicts=F, quietly=T)
@@ -109,9 +109,12 @@ print(paste0("P(", y, "|do(", x, ")) = ", exprDAG))
 
 # Note: to see all steps applied by the ID algorithm,
 # use expr = FALSE and steps = TRUE.
+```
+
 
 ##### Conditional Causal Effect 
 
+```{r, echo = TRUE, warning=FALSE}
 y = "C"
 x = "B"
 z = c("D")
