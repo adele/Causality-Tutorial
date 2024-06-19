@@ -5,29 +5,23 @@ dependencies:
   - r-devtools
   - r-biocmanager
   - r-igraph
-  - r-pcalg
+  # - r-pcalg
   - r-dagitty
-  - r-causaleffect
+  # - r-causaleffect
   - r-matrixcalc
   - r-jsonlite
   - r-rsvg
   - r-dot
-
-r-packages:
-  - pcalg
-  - matrixcalc
-  - jsonlite
-  - rsvg
-  - dot
 
 channels:
   - defaults
   - conda-forge
   - bioconda
 
-# Scripts to be run after environment creation
 post_build:
   - |
     Rscript -e "if (!requireNamespace('BiocManager', quietly = TRUE)) install.packages('BiocManager')"
     Rscript -e "BiocManager::install(c('RBGL', 'graph', 'Rgraphviz', 'gpm'))"
+    Rscript -e "install.packages('pcalg')"
+    Rscript -e "install.packages('causaleffect')"
     Rscript -e "devtools::install_github('adele/PAGId', dependencies=TRUE)"
