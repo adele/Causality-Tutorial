@@ -2,7 +2,7 @@
 
 The tutorial at NordicProbAI2024_Causality.ipynb covers two topics:
 
-### Part I. Part I: Causal Modeling and Effect Identification from Causal Diagrams:
+### Part I: Causal Modeling and Effect Identification from Causal Diagrams:
 
 -   Adjustment Criterion -- pcalg R package
 -   ID Algorithm -- causaleffect R package
