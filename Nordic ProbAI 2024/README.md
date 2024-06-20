@@ -1,13 +1,13 @@
 # Causality - Tutorial for Nordic Prob AI 2024
 
-The tutorial at main.Rmd covers two topics:
+The tutorial at NordicProbAI2024_Causality.ipynb covers two topics:
 
-### Part I. Effect identification from causal diagrams via:
+### Part I. Part I: Causal Modeling and Effect Identification from Causal Diagrams:
 
 -   Adjustment Criterion -- pcalg R package
 -   ID Algorithm -- causaleffect R package
 
-### Part II. Effect identification from PAGs via:
+### Part II: Causal Discovery and Effect Identification from the Markov Equivalence Class
 
 -   Generalized Adjustment Criterion (GAG) -- pcalg R package
 -   CIDP Algorithm -- PAGId R package
