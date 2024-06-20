@@ -1,6 +1,6 @@
 # Causality - Tutorial for Nordic Prob AI 2024
 
-Presentation slides: [202406_ProbAI_causality.pdf](https://github.com/probabilisticai/nordic-probai-2024/blob/main/day5/Adele%20Ribeiro/202406_ProbAI_causality.pdf)
+Presentation slides: [202406_ProbAI_causality.pdf](https://github.com/adele/Causality-Tutorial/blob/main/Nordic%20ProbAI%202024/202406_ProbAI_causality.pdf)
 
 The tutorial at [NordicProbAI2024_Causality.ipynb](https://colab.research.google.com/github/adele/Causality-Tutorial/blob/main/Nordic%20ProbAI%202024/NordicProbAI2024_Causality.ipynb)  covers two topics:
 
