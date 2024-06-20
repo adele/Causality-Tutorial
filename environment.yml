@@ -5,7 +5,7 @@ dependencies:
   - r-devtools
   - r-biocmanager
   - r-igraph
-  # - r-pcalg
+  - r-pcalg
   - r-dagitty
   # - r-causaleffect
   - r-matrixcalc
