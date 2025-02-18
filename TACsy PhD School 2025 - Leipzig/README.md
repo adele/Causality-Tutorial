@@ -1,6 +1,6 @@
 # Causality - Tutorial for TACsy PhD School 2025
 
-Presentation slides: [TACsySchool2025_Causality.pdf](https://github.com/adele/Causality-Tutorial/blob/main/TACSyPhDSchool2025Causality.pdf)
+Presentation slides: [TACsySchool2025_Causality.pdf](https://github.com/adele/Causality-Tutorial/blob/main/TACsy%20PhD%20School%202025%20-%20Leipzig/TACsyPhDSchool2025Causality.pdf))
 
 The tutorial at [TACsySchool2025_Causality.ipynb](https://colab.research.google.com/github/adele/Causality-Tutorial/blob/main/TACsy%20PhD%20School%202025%20-%20Leipzig/CausalityTutorial.ipynb):
 
