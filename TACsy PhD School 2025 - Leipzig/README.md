@@ -13,5 +13,5 @@ The tutorial at [TACsySchool2025_Causality.ipynb](https://colab.research.google.
 ### Part III: Causal Discovery using FCI
 
 ### Part IV: Effect Identification from the Markov Equivalence Class
--   Generalized Adjustment Criterion (GAG) -- dagitty R package
+-   Generalized Adjustment Criterion (GAG) -- pcalg R package
 -   CIDP Algorithm -- PAGId R package
