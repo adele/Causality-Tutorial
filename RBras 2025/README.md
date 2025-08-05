@@ -17,6 +17,10 @@ Tutorial at Google Colab: [Day01_EffectIdentification_Malaria.ipynb](https://col
 
 Presentation slides: [RBras2025_Day02.pdf](https://github.com/adele/Causality-Tutorial/blob/main/RBras%202025/RBras2025CausalityDay02.pdf)
 
-Tutorial in R: 
-[Day02_CausalDiscovery_Malaria.R](https://github.com/adele/Causality-Tutorial/blob/main/RBras%202025/Day02_CausalDiscovery_Malaria.R):
+Tutorial in R: [Day02_CausalDiscovery_Malaria.R](https://github.com/adele/Causality-Tutorial/blob/main/RBras%202025/Day02_CausalDiscovery_Malaria.R)
 
+### Part III: Causal Discovery using FCI
+
+### Part IV: Causal Effect Identification from the Markov Equivalence Class
+
+Generalized Backdoor / Adjustment Criterion -- pcalg R package CIDP Algorithm -- pagID R package
